@@ -8,12 +8,12 @@
     </key>
     <key id="d1" for="edge" attr.name="weight" attr.type="double"/>
     <graph id="G" edgedefault="undirected">
-        <node id="n0" labels=":Color">
+        <node id="n0" labels="|Color">
             <data key="d0">green</data>
         </node>
         <node id="n1"/>
         <node id="n2">
-            <data key="labels">:Color</data>
+            <data key="labels">|Color</data>
             <data key="d0">blue</data>
         </node>
         <node id="n3">
@@ -21,7 +21,7 @@
         </node>
         <node id="n4"/>
         <node id="n5">
-            <data key="labels">:Color:Highlight</data>
+            <data key="labels">|Color|Highlight</data>
             <data key="d0">tur&amp;uoise</data>
         </node>
         <edge id="e0" source="n0" target="n2">

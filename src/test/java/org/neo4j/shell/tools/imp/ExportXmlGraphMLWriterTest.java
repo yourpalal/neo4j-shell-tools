@@ -37,7 +37,7 @@ public class ExportXmlGraphMLWriterTest {
             "<key id=\"na&lt;&gt;me\" for=\"node\" attr.name=\"na&lt;&gt;me\" attr.type=\"string\"/>\n" +
             "<key id=\"count\" for=\"edge\" attr.name=\"count\" attr.type=\"double\"/>\n";
     public static final String TEST_XML_DATA_NODE =
-            "<node id=\"n0\" labels=\":FOO\"><data key=\"labels\">:FOO</data><data key=\"na&lt;&gt;me\">John &amp; Dö</data></node>\n";
+            "<node id=\"n0\" labels=\"|FOO\"><data key=\"labels\">|FOO</data><data key=\"na&lt;&gt;me\">John &amp; Dö</data></node>\n";
     public static final String TEST_XML_DATA_EDGE =
             "<edge id=\"e0\" source=\"n0\" target=\"n0\" label=\"BAR\"><data key=\"label\">BAR</data><data key=\"count\">0.01</data></edge>\n";
     static final String TEST_XML_DATA = TEST_XML_DATA_NODE + TEST_XML_DATA_EDGE;
@@ -69,9 +69,9 @@ public class ExportXmlGraphMLWriterTest {
 
     @Test
     public void testSplitLabels() throws Exception {
-        String labels=":Label1 :Label2  :Label3:Label4 ";
+        String labels="|Label1 |Label2  |Label3|Label4 |Label::5";
         String[] parts = labels.trim().split(XmlGraphMLReader.LABEL_SPLIT);
-        assertArrayEquals("mismatch "+ Arrays.toString(parts),new String[]{"","Label1","Label2","Label3","Label4"},parts);
+        assertArrayEquals("mismatch "+ Arrays.toString(parts),new String[]{"","Label1","Label2","Label3","Label4","Label::5"},parts);
     }
 
     @Test

@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class XmlGraphMLReader {
 
-    public static final String LABEL_SPLIT = " *: *";
+    public static final String LABEL_SPLIT = " *\\| *";
     private final GraphDatabaseService gdb;
     private boolean storeNodeIds;
     private DynamicRelationshipType defaultRelType =DynamicRelationshipType.withName("UNKNOWN");

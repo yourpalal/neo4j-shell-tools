@@ -38,7 +38,7 @@ public class CsvFormatTest {
         System.out.println("output = " + output);
         assertEquals("id:id,labels:label,foo,age:int\n" +
                      "0,,bar,\n" +
-                     "1,:User,,28\n" +
+                     "1,|User,,28\n" +
                      "start:id,end:id,type:label,counter:int\n" +
                      "0,1,KNOWS,1\n" +
                      "1,0,KNOWS,2\n", output);

@@ -160,6 +160,15 @@ public class XmlGraphMLWriter {
         writer.writeEndElement();
     }
 
+    private String toStringForArray(Object value) {
+        if (value instanceof Number) {
+            return FormatUtils.formatNumber((Number)value);
+        } else if (value instanceof String) {
+            return '"' + ((String)value) + '"';
+        }
+
+        return value.toString();
+    }
     private String toString(Object value) {
         if (value instanceof Number) {
             return FormatUtils.formatNumber((Number)value);
