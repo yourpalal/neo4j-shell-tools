@@ -7,9 +7,12 @@
         <default>yellow</default>
     </key>
     <key id="d1" for="edge" attr.name="weight" attr.type="double"/>
+    <key id="d2" for="node" attr.name="foods" attr.type="string_array" />
+
     <graph id="G" edgedefault="undirected">
         <node id="n0">
             <data key="d0">green</data>
+            <data key="d2">["pizza", "chocolate"]</data>
         </node>
         <node id="n1"/>
         <node id="n2">

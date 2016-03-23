@@ -45,12 +45,13 @@ public class MetaInformation {
         }
     }
 
-    public final static Set<String> GRAPHML_ALLOWED = new HashSet<>(asList("boolean", "int", "long", "float", "double", "string"));
+    public final static Set<String> GRAPHML_ALLOWED = new HashSet<>(asList("boolean", "int", "long", "float", "double", "string", "string_array"));
 
     public static String typeFor(Class value, Set<String> allowed) {
         if (value == void.class) return null;
-        if (value.isArray()) return null; // TODO arrays
         String name = value.getSimpleName().toLowerCase();
+        if (name.equals("string[]")) return "string_array";
+        if (value.isArray()) return null; // TODO arrays
         if (name.equals("integer")) name="int";
         if (allowed==null || allowed.contains(name)) return name;
         if (Number.class.isAssignableFrom(value)) return "int";

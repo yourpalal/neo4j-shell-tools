@@ -12,7 +12,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +86,18 @@ public class XmlGraphMLReader {
             Object parse(String value) {
                 return value;
             }
+        }, STRING_ARRAY() {
+          Object parse(String value) {
+            JsonReader jsonReader = Json.createReader(new StringReader(value));
+            JsonArray array = jsonReader.readArray();
+            jsonReader.close();
+
+            String[] result = new String[array.size()];
+            for (int i = 0; i < result.length; i++) {
+              result[i] = array.getString(i);
+            }
+            return result;
+          }
         };
 
         abstract Object parse(String value);

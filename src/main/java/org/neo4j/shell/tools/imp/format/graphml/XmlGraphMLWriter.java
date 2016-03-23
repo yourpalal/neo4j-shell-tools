@@ -11,7 +11,12 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonWriter;
 import java.util.*;
 
 import static org.neo4j.helpers.collection.Iterables.join;
@@ -142,32 +147,41 @@ public class XmlGraphMLWriter {
         if (value != null) {
         	if (value instanceof Iterable<?>) {
         		Iterable<?> vals = (Iterable<?>)value;
+            JsonArrayBuilder builder = Json.createArrayBuilder();
         		for (Object v: vals) {
-        			val_arr.add(v.toString());
+              addToBuilder(builder, v);
         		}
-        		val = val_arr.toString();
+            val = getJsonArray(builder);
         	} else if (value instanceof Object[]) {
         		Object[] vals = (Object[])value;
+            JsonArrayBuilder builder = Json.createArrayBuilder();
         		for (Object v: vals) {
-        			val_arr.add(v.toString());
+              addToBuilder(builder, v);
         		}
-        		val = val_arr.toString();
+            val = getJsonArray(builder);
         	} else {
-        		val = value.toString();
+            val = value.toString();
         	}
         	writer.writeCharacters(val);
         }
         writer.writeEndElement();
     }
 
-    private String toStringForArray(Object value) {
-        if (value instanceof Number) {
-            return FormatUtils.formatNumber((Number)value);
-        } else if (value instanceof String) {
-            return '"' + ((String)value) + '"';
-        }
+    private String getJsonArray(JsonArrayBuilder builder) {
+        StringWriter stringWriter = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(stringWriter);
+        jsonWriter.writeArray(builder.build());
+        jsonWriter.close();
+        return stringWriter.toString();
+    }
 
-        return value.toString();
+    private JsonArrayBuilder addToBuilder(JsonArrayBuilder builder, Object value) {
+        if (value instanceof Integer) {
+            return builder.add(((Integer)value).intValue());
+        } else if (value instanceof String) {
+            return builder.add((String)value);
+        }
+        throw new RuntimeException("can't make array of that!!!");
     }
     private String toString(Object value) {
         if (value instanceof Number) {

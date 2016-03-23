@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -62,8 +63,10 @@ public class GraphMLReaderTest {
         InputStream stream = getClass().getResourceAsStream("/graphml-with-attributes.xml");
         try {
             graphMLReader.parseXML(new InputStreamReader(stream),MapNodeCache.usingHashMap());
+            String[] pizzaAndChocolate = {"pizza", "chocolate"};
             try (Transaction tx = gdb.beginTx()) {
                 assertNode(gdb.getNodeById(0), "n0", "green");
+                assertNode(gdb.getNodeById(0), "n0", pizzaAndChocolate);
                 assertNode(gdb.getNodeById(1), "n1", "yellow");
                 assertNode(gdb.getNodeById(2), "n2","blue");
                 assertNode(gdb.getNodeById(3), "n3", "red");
@@ -87,6 +90,11 @@ public class GraphMLReaderTest {
         assertNode(node,id);
         assertEquals("color",color, node.getProperty("color"));
     }
+    private void assertNode(Node node, String id, String[] foods) {
+      assertNode(node, id);
+      assertArrayEquals("foods", foods, (String[])node.getProperty("foods"));
+    }
+
     private Relationship assertRel(int relId, String id1, String id2) {
         Relationship rel = gdb.getRelationshipById(relId);
         assertNode(rel.getStartNode(), id1);
