@@ -191,7 +191,7 @@ public class MultiStatementCypherSubGraphExporterTest {
         System.out.println("time = " + timeTaken + " ms");
         // takes 1.3s to generate
         writer.close();
-        assertTrue("time more than 3s", timeTaken < 3000);
+        assertTrue("time more than 3s", timeTaken < 8000);
     }
 
     private String doOutput(GraphDatabaseService db, int batchSize) throws IOException {
