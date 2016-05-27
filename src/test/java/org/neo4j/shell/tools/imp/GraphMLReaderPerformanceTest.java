@@ -33,12 +33,12 @@ public class GraphMLReaderPerformanceTest {
     @Before
     public void setUp() throws Exception {
         FileUtils.deleteRecursively(directory);
-        db = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(directory.getAbsolutePath())
-                .setConfig(GraphDatabaseSettings.nodestore_mapped_memory_size,String.valueOf(20*MEGABYTE))
-                .setConfig(GraphDatabaseSettings.relationshipstore_mapped_memory_size,String.valueOf(100*MEGABYTE))
-                .setConfig(GraphDatabaseSettings.nodestore_propertystore_index_keys_mapped_memory_size,String.valueOf(100*MEGABYTE))
-                .setConfig(GraphDatabaseSettings.strings_mapped_memory_size,String.valueOf(100*MEGABYTE))
-                .setConfig(GraphDatabaseSettings.keep_logical_logs, "false")
+        db = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(new File(directory.getAbsolutePath()))
+                // .setConfig(GraphDatabaseSettings.nodestore_mapped_memory_size,String.valueOf(20*MEGABYTE))
+                // .setConfig(GraphDatabaseSettings.relationshipstore_mapped_memory_size,String.valueOf(100*MEGABYTE))
+                // .setConfig(GraphDatabaseSettings.nodestore_propertystore_index_keys_mapped_memory_size,String.valueOf(100*MEGABYTE))
+                // .setConfig(GraphDatabaseSettings.strings_mapped_memory_size,String.valueOf(100*MEGABYTE))
+                // .setConfig(GraphDatabaseSettings.keep_logical_logs, "false")
                 .newGraphDatabase();
 
         reader = new CountingReader(graphMlFile);

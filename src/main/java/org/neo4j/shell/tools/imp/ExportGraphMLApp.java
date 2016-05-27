@@ -6,7 +6,6 @@ import org.neo4j.cypher.export.SubGraph;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.kernel.GraphDatabaseAPI;
 import org.neo4j.shell.*;
 import org.neo4j.shell.impl.AbstractApp;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
@@ -48,7 +47,7 @@ public class ExportGraphMLApp extends AbstractApp {
     }
 
     private SubGraph cypherResultSubGraph(String query, boolean relsBetween) {
-        GraphDatabaseAPI db = getServer().getDb();
+        GraphDatabaseService db = getServer().getDb();
         try (Transaction tx = db.beginTx()) {
             Result result = db.execute(query);
             SubGraph subGraph = CypherResultSubGraph.from(result, db, relsBetween);
