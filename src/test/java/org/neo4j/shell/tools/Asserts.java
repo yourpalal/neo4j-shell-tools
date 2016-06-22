@@ -1,6 +1,6 @@
 package org.neo4j.shell.tools;
 
-import org.neo4j.helpers.collection.Iterables;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.shell.ShellClient;
 import org.neo4j.shell.ShellException;
 import org.neo4j.shell.impl.CollectingOutput;
@@ -18,7 +18,7 @@ public class Asserts {
     public static void assertCommand(ShellClient client, String command, String... expected) throws RemoteException, ShellException {
         CollectingOutput out = new CollectingOutput();
         client.evaluate(command, out);
-        assertEquals("command: "+join("\n",out),expected.length, Iterables.count(out));
+        assertEquals("command: "+join("\n",out.iterator()),expected.length, IteratorUtil.count(out.iterator()));
         Iterator<String> it = out.iterator();
         for (String s : expected) {
             String output = it.next().trim();

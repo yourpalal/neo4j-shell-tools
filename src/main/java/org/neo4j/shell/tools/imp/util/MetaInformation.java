@@ -61,7 +61,7 @@ public class MetaInformation {
     public static String getLabelsString(Node node) {
         Iterator<Label> it = node.getLabels().iterator();
         if (it.hasNext()) {
-            return "|" + join("|", node.getLabels());
+            return "|" + join("|", it);
         }
         return "";
     }

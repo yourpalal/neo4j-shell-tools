@@ -2,13 +2,14 @@ package org.neo4j.shell.tools.imp.util;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.kernel.GraphDatabaseAPI;
 
 /**
 * @author mh
 * @since 16.01.14
 */
 public class BatchTransaction implements AutoCloseable {
-    private final GraphDatabaseService gdb;
+    private final GraphDatabaseAPI gdb;
     private final int batchSize;
     private final Reporter reporter;
     Transaction tx;
@@ -16,7 +17,7 @@ public class BatchTransaction implements AutoCloseable {
     int batchCount = 0;
 
     public BatchTransaction(GraphDatabaseService gdb, int batchSize, Reporter reporter) {
-        this.gdb = gdb;
+        this.gdb = (GraphDatabaseAPI) gdb;
         this.batchSize = batchSize;
         this.reporter = reporter;
         tx = beginTx();

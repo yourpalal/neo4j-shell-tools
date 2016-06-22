@@ -92,9 +92,9 @@ public class SimpleGraphMLWriter {
         }
     }
     private void writeLabelsAsData(Writer writer, Node node) throws IOException {
-        Iterator<org.neo4j.graphdb.Label> it = node.getLabels().iterator();
+        Iterator<Label> it = node.getLabels().iterator();
         if (it.hasNext()) {
-            writeData(writer,"labels",join(",", node.getLabels()));
+            writeData(writer,"labels",join(",", it));
         }
     }
 
