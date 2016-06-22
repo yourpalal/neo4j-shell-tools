@@ -4,12 +4,12 @@
 
 ### Installation
 
-Download [neo4j-shell-tools_2.3.2.zip](http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_2.3.2.zip) and extract it in your
+Download [neo4j-shell-tools_3.0.1.zip](http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_3.0.1.zip) and extract it in your
 Neo4j Server's lib directory e.g.
 
 ````
-cd /path/to/neo4j-community-2.3.2.
-curl http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_2.3.2.zip -o neo4j-shell-tools.zip
+cd /path/to/neo4j-community-3.0.1.
+curl http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_3.0.1.zip -o neo4j-shell-tools.zip
 unzip neo4j-shell-tools.zip -d lib
 ````
 
@@ -18,7 +18,7 @@ unzip neo4j-shell-tools.zip -d lib
 The following script does the above installation automatically, and sets the `$NEO4J_HOME` path; works on Unix:
 
 ````
-NEO4J_HOME=$(neo4j-shell -c 'dbinfo -g Kernel StoreDirectory' | grep -oE '\/.*lib.*?\/') && curl -Lk -o neo4j-shell-tools.zip http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_2.3.2.zip && unzip neo4j-shell-tools.zip -d ${NEO4J_HOME}lib
+NEO4J_HOME=$(neo4j-shell -c 'dbinfo -g Kernel StoreDirectory' | grep -oE '\/.*lib.*?\/') && curl -Lk -o neo4j-shell-tools.zip http://dist.neo4j.org/jexp/shell/neo4j-shell-tools_3.0.1.zip && unzip neo4j-shell-tools.zip -d ${NEO4J_HOME}lib
 ````
 
 ### Before you start
@@ -26,7 +26,7 @@ NEO4J_HOME=$(neo4j-shell -c 'dbinfo -g Kernel StoreDirectory' | grep -oE '\/.*li
 Restart neo4j and then launch the neo4j-shell:
 
 ````
-cd /path/to/neo4j-community-2.3.2
+cd /path/to/neo4j-community-3.0.1
 ./bin/neo4j restart
 ./bin/neo4j-shell
 ````
@@ -50,6 +50,7 @@ Then choose a suitable import command, depending on how your data is structured.
 * If your data is formatted as CSV and you want to use [cypher](http://neo4j.com/docs/stable/cypher-query-lang.html) statements for importing it, use the [Cypher Import](#cypher-import) command.
 * If your data is in [GraphML](http://graphml.graphdrawing.org/) format, use the [GraphML Import](#graphml-import) command.
 * If your data is in [Geoff](http://nigelsmall.com/geoff) format, use the [Geoff Import](#geoff-import) command.
+* If your data is in Binary format, use the [Binary Import](#binary-import) command.
 
 #### Cypher Import
 
@@ -127,6 +128,23 @@ $ import-geoff -i in.geoff
 Geoff import of in.geoff created 3 entities.
 ````
 
+#### Binary Import
+
+Populate your database from a binary dump of a neo4j database.  Internally, Kyro is used to serialize the graph.
+
+`import-binary [-i in.bin] [-r REL_TYPE] [-b 20000] [-c]`
+
+- -i in.bin: binary file from previous database export
+- -r REL_TYPE default relationship-type for relationships without a label attribute
+- -b batch-size batch-commit size
+- -c uses a cache that spills to disk for very large imports
+
+Usage:
+
+````
+$ import-binary -b 10000 -i /tmp/export.bin -c
+````
+
 #### GraphML Import
 
 Populate your database from [GraphML](http://graphml.graphdrawing.org/) files. GraphML is an XML file format used to describe graphs.
@@ -180,6 +198,7 @@ Choose a suitable export command, depending on your requirement for the exported
 * To export your data as Cypher statements, use, use the [Cypher Export](#cypher-export) command.
 * To export your data as CSV, use the [Cypher Import](#cypher-import) command with the `-o file` option which will output the results of your queries into a CSV file.
 * To export your data as [GraphML](http://graphml.graphdrawing.org/), use the [GraphML Export](#graphml-export) command.
+* To export your data as a binary file, use the [Export Binary](#binary-export) command.
 
 #### Cypher Export
 
@@ -232,6 +251,20 @@ commit
 begin
 DROP CONSTRAINT ON (node:`UNIQUE IMPORT LABEL`) ASSERT node.`UNIQUE IMPORT ID` IS UNIQUE;
 commit
+````
+
+#### Binary Export
+
+Export your Neo4j graph database to a binary file.
+
+`export-binary -o out.bin`
+
+- -o out.bin
+
+Usage:
+
+````
+$ export-binary -o out.bin
 ````
 
 #### GraphML Export

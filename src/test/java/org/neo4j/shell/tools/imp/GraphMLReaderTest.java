@@ -47,7 +47,7 @@ public class GraphMLReaderTest {
 
     @Test
     public void testReadSimpleFile() throws Exception {
-        graphMLReader.parseXML(new StringReader(SIMPLE_GRAPHML), MapNodeCache.usingHashMap());
+        graphMLReader.parseXML(new StringReader(SIMPLE_GRAPHML), MapNodeCache.<String, Long>usingHashMap());
         try (Transaction tx = gdb.beginTx()) {
             assertNode(gdb.getNodeById(0), "n0");
             assertNode(gdb.getNodeById(1), "n1");
@@ -62,7 +62,7 @@ public class GraphMLReaderTest {
     public void testReadFileWithAttributes() throws Exception {
         InputStream stream = getClass().getResourceAsStream("/graphml-with-attributes.xml");
         try {
-            graphMLReader.parseXML(new InputStreamReader(stream),MapNodeCache.usingHashMap());
+            graphMLReader.parseXML(new InputStreamReader(stream),MapNodeCache.<String, Long>usingHashMap());
             String[] pizzaAndChocolate = {"pizza", "chocolate"};
             try (Transaction tx = gdb.beginTx()) {
                 assertNode(gdb.getNodeById(0), "n0", "green");

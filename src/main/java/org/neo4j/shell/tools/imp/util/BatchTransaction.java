@@ -2,7 +2,7 @@ package org.neo4j.shell.tools.imp.util;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.kernel.GraphDatabaseAPI;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
 
 /**
 * @author mh
@@ -32,6 +32,14 @@ public class BatchTransaction implements AutoCloseable {
 
     public void commit() {
         doCommit(true);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void manualCommit(boolean log) {
+        doCommit(log);
     }
 
     private void doCommit(boolean log) {
